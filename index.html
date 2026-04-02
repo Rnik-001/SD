@@ -3,182 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>王者视距·修复版</title>
+    <title>王者视距·极简版</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-            padding: 12px;
-        }
-        .container {
-            width: 100%;
-            max-width: 320px;
-            background: #fff;
-            border-radius: 28px;
-            padding: 20px 16px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-            border: 1px solid #edf2ef;
-            text-align: center;
-        }
-        h1 {
-            font-size: 22px;
-            color: #1f8a5c;
-            margin: 8px 0 4px;
-        }
-        .badge {
-            background: #fff3e0;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 10px;
-            color: #c27e2a;
-            display: inline-block;
-        }
-        .btn {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 60px;
-            font-size: 15px;
-            font-weight: 600;
-            border: 1px solid #e2e8e2;
-            background: white;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-primary {
-            background: #23b574;
-            color: white;
-            border: none;
-        }
-        .btn-active {
-            background: #e2f3e9;
-            border: 1.5px solid #23b574;
-            color: #136b45;
-        }
-        .status {
-            font-size: 11px;
-            background: #f8faf8;
-            padding: 6px 12px;
-            border-radius: 30px;
-            margin-top: 16px;
-            color: #2c6e4a;
-        }
-        .footer {
-            font-size: 10px;
-            color: #6c757d;
-            margin-top: 16px;
-        }
-        .footer a {
-            color: #1f8a5c;
-            text-decoration: none;
-        }
-        /* 弹窗 */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-        .modal-card {
-            background: white;
-            width: 85%;
-            max-width: 280px;
-            border-radius: 32px;
-            padding: 20px;
-            text-align: center;
-        }
-        .modal-card input {
-            width: 100%;
-            padding: 10px;
-            margin: 12px 0;
-            border-radius: 60px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-        .modal-card button {
-            background: #23b574;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 60px;
-            width: 100%;
-            font-weight: bold;
-        }
-        .warning {
-            font-size: 12px;
-            background: #fefaf0;
-            padding: 10px;
-            border-radius: 20px;
-            text-align: left;
-            margin: 12px 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: #ffffff; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: system-ui, -apple-system, sans-serif; padding: 12px; }
+        .container { width: 100%; max-width: 320px; background: #fff; border-radius: 28px; padding: 20px 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid #edf2ef; text-align: center; }
+        h1 { font-size: 22px; color: #1f8a5c; margin: 8px 0 4px; }
+        .badge { background: #fff3e0; padding: 4px 12px; border-radius: 30px; font-size: 10px; color: #c27e2a; display: inline-block; }
+        .btn { width: 100%; padding: 10px; margin: 8px 0; border-radius: 60px; font-size: 15px; font-weight: 600; border: 1px solid #e2e8e2; background: white; cursor: pointer; transition: 0.2s; }
+        .btn-primary { background: #23b574; color: white; border: none; }
+        .btn-active { background: #e2f3e9; border: 1.5px solid #23b574; color: #136b45; }
+        .status { font-size: 11px; background: #f8faf8; padding: 6px 12px; border-radius: 30px; margin-top: 16px; color: #2c6e4a; }
+        .footer { font-size: 10px; color: #6c757d; margin-top: 16px; }
+        .footer a { color: #1f8a5c; text-decoration: none; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+        .modal-card { background: white; width: 85%; max-width: 280px; border-radius: 32px; padding: 20px; text-align: center; }
+        .modal-card input { width: 100%; padding: 10px; margin: 12px 0; border-radius: 60px; border: 1px solid #ccc; text-align: center; }
+        .modal-card button { background: #23b574; color: white; border: none; padding: 10px; border-radius: 60px; width: 100%; font-weight: bold; }
+        .warning { font-size: 12px; background: #fefaf0; padding: 10px; border-radius: 20px; text-align: left; margin: 12px 0; }
     </style>
 </head>
 <body>
 
+<!-- 验证弹窗 -->
 <div id="entryModal" class="modal">
     <div class="modal-card">
         <div style="font-size: 40px;">🛡️</div>
         <h3>仅供学习 · 禁止贩卖</h3>
-        <div class="warning">
-            🔓 永久免费 · 风险自负<br>
-            🚫 严禁盗卖，否则封禁
-        </div>
+        <div class="warning">🔓 永久免费 · 风险自负<br>🚫 严禁盗卖，否则封禁</div>
         <input type="text" id="okInput" placeholder="输入「OK」同意" autocomplete="off">
         <div id="modalError" style="color:#e67e22; font-size:11px;"></div>
         <button id="confirmBtn">确认进入</button>
     </div>
 </div>
 
+<!-- 主界面（初始隐藏） -->
 <div id="mainUI" style="display: none;">
     <div class="container">
         <div class="badge">𝐓𝐆频道 @𝐢𝐎𝐒𝐀𝐖𝐉</div>
         <h1>王者·S43视距</h1>
-        <p style="font-size:12px; color:#666;">自定义视距 · 修复版</p>
-
+        <p style="font-size:12px;">极简修复版</p>
         <button id="btn1" class="btn btn-primary">🌟 2.0倍视距</button>
-        <button id="btn2" class="btn">🎛️ 自定义视距 (0.1~9.9)</button>
-
+        <button id="btn2" class="btn">🎛️ 自定义视距</button>
         <div class="status" id="statusMsg">⚙️ 等待游戏连接...</div>
         <div class="footer">
-            <a href="#" id="tgLink">✈️ 加入TG频道</a> &nbsp;|&nbsp; © 2026 爱玩机
+            <a href="#" id="tgLink">✈️ 加入TG频道</a> &nbsp;|&nbsp; © 2026
         </div>
     </div>
 </div>
 
 <script>
-    // ========== 获取父窗口的 h5gg（避免重复定义） ==========
+    // ========== 获取父窗口的 h5gg ==========
     if (typeof h5gg === 'undefined' && window.parent && window.parent.h5gg) {
         window.h5gg = window.parent.h5gg;
     }
     if (typeof h5gg === 'undefined') {
-        alert('✖️请在游戏内运行此插件');
+        alert('❌ 请在游戏内运行此插件');
         throw new Error('h5gg not found');
     }
 
-    // ========== 全局变量 ==========
+    // ========== 配置 ==========
+    const OFFSET_CAMERA = 0x12ACEE98;   // 请根据当前游戏版本修改此偏移
     let gameProcess = null;
-    let memoryBase = null;
     let isActive1 = false;
-    let checkInterval = null;
-    const OFFSET_CAMERA = 0x12ACEE98;  // 固定偏移，如需更新请修改此处或提供新版本
 
     // DOM 元素
     const modal = document.getElementById('entryModal');
@@ -201,101 +88,68 @@
         statusSpan.style.color = isErr ? '#e67e22' : '#2a7a50';
     }
 
-    // ========== 进程检测（增强） ==========
-    function findGameProcess() {
-        try {
-            const procs = h5gg.getProcList();
-            if (!procs) return null;
-            for (let p of procs) {
-                if (p && p.name) {
-                    let name = p.name.toLowerCase();
-                    if (name.includes('smoba') || name.includes('tencent') || name.includes('王者')) {
-                        return p;
-                    }
-                }
+    // ========== 极简进程检测（严格匹配 "smoba"） ==========
+    function checkProcess() {
+        const procs = h5gg.getProcList();
+        for (let i = 0; i < procs.length; i++) {
+            if (procs[i].name === "smoba") {
+                h5gg.setTargetProc(procs[i].pid);
+                h5gg.clearResults();
+                gameProcess = procs[i];
+                updateStatus("✅ 已连接王者荣耀，可调节视距");
+                return true;
             }
-            return null;
-        } catch(e) {
-            console.error(e);
-            return null;
         }
+        return false;
     }
 
-    function getMemoryBase() {
-        try {
-            const ranges = h5gg.getRangesList();
-            if (!ranges) return null;
-            // 优先找 UnityFramework
-            let target = ranges.find(r => r.name && r.name.includes('UnityFramework'));
-            if (!target) {
-                target = ranges.find(r => r.name && r.name.toLowerCase().includes('smoba'));
-            }
-            if (!target) {
-                target = ranges.find(r => r.protection && r.protection.includes('rw'));
-            }
-            return target ? target.start : null;
-        } catch(e) {
-            console.error(e);
-            return null;
+    // 循环等待直到找到进程
+    function waitForProcess() {
+        if (checkProcess()) {
+            return;
         }
+        updateStatus("🔍 未找到 smoba 进程，请启动王者荣耀...", true);
+        setTimeout(waitForProcess, 2000);
     }
 
     // ========== 修改视距 ==========
     function setCameraDistance(val) {
-        if (!gameProcess || !memoryBase) {
-            alert("请先启动王者荣耀并进入对局");
+        if (!gameProcess) {
+            alert("游戏进程未连接，请确保王者荣耀已启动");
             return false;
         }
         try {
-            const baseAddr = Number(memoryBase) + OFFSET_CAMERA;
+            // 基址获取：直接使用 h5gg 的 getRangesList 找到主模块基址（简化版，使用第一个可读写的大地址区域）
+            const ranges = h5gg.getRangesList();
+            let base = null;
+            for (let r of ranges) {
+                if (r.protection && r.protection.includes('rw') && r.start > 0x100000000) {
+                    base = r.start;
+                    break;
+                }
+            }
+            if (!base) {
+                alert("无法定位内存基址");
+                return false;
+            }
+            const baseAddr = Number(base) + OFFSET_CAMERA;
             const ptr1 = h5gg.getValue(baseAddr, 'I64');
-            if (!ptr1 || ptr1 === 0) throw new Error("指针1无效");
+            if (!ptr1 || ptr1 === 0) throw new Error("一级指针无效");
             const ptr2 = h5gg.getValue(Number(ptr1) + 0xB8, 'I64');
-            if (!ptr2 || ptr2 === 0) throw new Error("指针2无效");
+            if (!ptr2 || ptr2 === 0) throw new Error("二级指针无效");
             const finalAddr = Number(ptr2) + 0x29C;
             h5gg.setValue(finalAddr, val, 'F32');
             return true;
         } catch(e) {
-            alert("修改失败，可能偏移已失效，请更新插件版本");
+            alert("修改失败，偏移可能失效: " + e.message);
             return false;
         }
     }
 
-    // ========== 连接游戏（定期重试） ==========
-    function connectGame() {
-        if (!gameProcess) {
-            gameProcess = findGameProcess();
-            if (gameProcess) {
-                h5gg.setTargetProc(gameProcess.pid);
-                updateStatus(`✅ 进程: ${gameProcess.name}`);
-            }
-        }
-        if (gameProcess && !memoryBase) {
-            memoryBase = getMemoryBase();
-            if (memoryBase) {
-                updateStatus(`✅ 基址: 0x${memoryBase.toString(16)} 就绪`);
-            }
-        }
-        if (gameProcess && memoryBase) {
-            updateStatus("✨ 已就绪，可调节视距");
-            return true;
-        }
-        updateStatus("⏳ 等待王者荣耀启动...");
-        return false;
-    }
-
-    function startMonitor() {
-        if (checkInterval) clearInterval(checkInterval);
-        connectGame();
-        checkInterval = setInterval(() => {
-            if (!gameProcess || !memoryBase) connectGame();
-        }, 5000);
-    }
-
-    // ========== 按钮交互 ==========
+    // ========== 按钮事件 ==========
     function onBtn1() {
-        if (!gameProcess || !memoryBase) {
-            alert("游戏未连接，请启动王者荣耀并进入对局");
+        if (!gameProcess) {
+            alert("请先启动王者荣耀");
             return;
         }
         if (!isActive1) {
@@ -305,7 +159,7 @@
                 btn1.innerHTML = '✅ 2.0倍·已激活';
                 if (btn2.classList.contains('btn-active')) {
                     btn2.classList.remove('btn-active');
-                    btn2.innerHTML = '🎛️ 自定义视距 (0.1~9.9)';
+                    btn2.innerHTML = '🎛️ 自定义视距';
                 }
             }
         } else {
@@ -318,15 +172,15 @@
     }
 
     function onBtn2() {
-        if (!gameProcess || !memoryBase) {
-            alert("游戏未连接");
+        if (!gameProcess) {
+            alert("请先启动王者荣耀");
             return;
         }
-        let input = prompt("输入视距倍数 (0.1~9.9)", "2.5");
+        let input = prompt("请输入视距倍数 (0.1~9.9)", "2.5");
         if (input === null) return;
         let val = parseFloat(input);
         if (isNaN(val) || val < 0.1 || val > 9.9) {
-            alert("请输入0.1~9.9之间的数字");
+            alert("请输入 0.1~9.9 之间的数字");
             return;
         }
         if (setCameraDistance(val)) {
@@ -340,12 +194,12 @@
         }
     }
 
-    // ========== 验证与启动 ==========
+    // ========== 验证并启动 ==========
     function verifyAndStart() {
         if (okInput.value.trim() === "OK") {
             modal.style.display = "none";
             mainUI.style.display = "block";
-            startMonitor();
+            waitForProcess();   // 开始循环检测进程
             btn1.addEventListener('click', onBtn1);
             btn2.addEventListener('click', onBtn2);
         } else {
@@ -356,8 +210,6 @@
 
     confirmBtn.addEventListener('click', verifyAndStart);
     okInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') verifyAndStart(); });
-
-    window.addEventListener('beforeunload', () => { if(checkInterval) clearInterval(checkInterval); });
 </script>
 </body>
 </html>
