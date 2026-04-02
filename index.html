@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>王者视距·修复版</title>
     <style>
         * {
@@ -17,163 +17,79 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
             padding: 12px;
         }
-        .tool-container {
+        .container {
             width: 100%;
-            max-width: 340px;
-            margin: 0 auto;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .tool-container.visible {
-            opacity: 1;
-        }
-        .glass-card {
-            background: #ffffff;
+            max-width: 320px;
+            background: #fff;
             border-radius: 28px;
-            padding: 18px 16px 22px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            padding: 20px 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
             border: 1px solid #edf2ef;
-        }
-        .hero {
             text-align: center;
-            margin-bottom: 16px;
         }
-        .free-badge {
-            display: inline-block;
-            background: #fff3e0;
-            padding: 3px 10px;
-            border-radius: 30px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #c27e2a;
-            margin-bottom: 8px;
-            border: 0.5px solid #ffe0a3;
-        }
-        .hero-icon {
-            font-size: 36px;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-        .hero h1 {
+        h1 {
             font-size: 22px;
-            font-weight: 800;
             color: #1f8a5c;
-            margin-bottom: 4px;
+            margin: 8px 0 4px;
         }
-        .hero-badge {
-            font-size: 10px;
-            background: #f5faf7;
-            padding: 3px 10px;
+        .badge {
+            background: #fff3e0;
+            padding: 4px 12px;
             border-radius: 30px;
+            font-size: 10px;
+            color: #c27e2a;
             display: inline-block;
-            color: #2c6e4a;
         }
-        .action-btn {
+        .btn {
             width: 100%;
-            padding: 10px 12px;
-            margin: 6px 0;
+            padding: 10px;
+            margin: 8px 0;
             border-radius: 60px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
-            text-align: center;
-            background: #ffffff;
             border: 1px solid #e2e8e2;
+            background: white;
             cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .action-btn:active {
-            transform: scale(0.97);
-            background: #fafcfa;
+            transition: 0.2s;
         }
         .btn-primary {
             background: #23b574;
             color: white;
             border: none;
         }
-        .channel-btn {
-            background: #1e2f3c;
-            color: #ffecb3;
-            border: 1px solid #3e5a6b;
-        }
-        .active-special {
+        .btn-active {
             background: #e2f3e9;
             border: 1.5px solid #23b574;
             color: #136b45;
         }
-        .divider {
-            height: 1px;
-            background: #edf2ef;
-            margin: 14px 0 12px;
-        }
-        .footer-note {
-            font-size: 10px;
-            text-align: center;
-            color: #6c757d;
-            margin-top: 14px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            padding: 4px 0;
-        }
-        .footer-note a {
-            color: #1f8a5c;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .status-tip {
-            font-size: 10px;
+        .status {
+            font-size: 11px;
             background: #f8faf8;
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 30px;
-            margin-top: 12px;
-            color: #2c6e4a;
-            text-align: center;
-        }
-        .flex-center {
-            display: flex;
-            justify-content: center;
-        }
-        .offset-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-            align-items: center;
-        }
-        .offset-input {
-            flex: 1;
-            padding: 6px 10px;
-            border-radius: 30px;
-            border: 1px solid #d4dcd4;
-            background: #ffffff;
-            font-size: 12px;
-            font-family: monospace;
-        }
-        .small-btn {
-            background: #eef3ee;
-            border: none;
             padding: 6px 12px;
             border-radius: 30px;
-            font-size: 11px;
-            font-weight: 500;
-            cursor: pointer;
+            margin-top: 16px;
+            color: #2c6e4a;
         }
-        /* 弹窗样式 */
-        .modal-overlay {
+        .footer {
+            font-size: 10px;
+            color: #6c757d;
+            margin-top: 16px;
+        }
+        .footer a {
+            color: #1f8a5c;
+            text-decoration: none;
+        }
+        /* 弹窗 */
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.5);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -181,205 +97,115 @@
             z-index: 2000;
         }
         .modal-card {
-            width: 86%;
-            max-width: 300px;
-            background: #ffffff;
+            background: white;
+            width: 85%;
+            max-width: 280px;
             border-radius: 32px;
-            padding: 20px 18px 24px;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            border: 1px solid #e0e7e0;
         }
-        .modal-icon {
-            font-size: 40px;
-            margin-bottom: 6px;
+        .modal-card input {
+            width: 100%;
+            padding: 10px;
+            margin: 12px 0;
+            border-radius: 60px;
+            border: 1px solid #ccc;
+            text-align: center;
         }
-        .modal-card h3 {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1f8a5c;
-            margin-bottom: 8px;
+        .modal-card button {
+            background: #23b574;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 60px;
+            width: 100%;
+            font-weight: bold;
         }
-        .modal-warning {
+        .warning {
             font-size: 12px;
             background: #fefaf0;
             padding: 10px;
             border-radius: 20px;
             text-align: left;
             margin: 12px 0;
-            border-left: 3px solid #23b574;
-            line-height: 1.4;
-            color: #2b4e3a;
-        }
-        .input-group {
-            margin: 12px 0 10px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 60px;
-            border: 1.5px solid #d4dcd4;
-            background: #ffffff !important;
-            font-size: 14px;
-            text-align: center;
-            font-weight: 500;
-            outline: none;
-            color: #1a2e24;
-            box-shadow: none;
-            -webkit-appearance: none;
-        }
-        .modal-btn {
-            background: #23b574;
-            width: 100%;
-            padding: 10px;
-            border-radius: 60px;
-            border: none;
-            color: white;
-            font-weight: bold;
-            font-size: 15px;
-            margin-top: 6px;
-            cursor: pointer;
-        }
-        .error-tip {
-            font-size: 10px;
-            color: #e67e22;
-            margin-top: 4px;
         }
     </style>
 </head>
 <body>
 
-<!-- 验证弹窗 -->
-<div id="entryModal" class="modal-overlay">
+<div id="entryModal" class="modal">
     <div class="modal-card">
-        <div class="modal-icon">🔴🟡🟢</div>
-        <h3>仅供学习 · 禁止传播</h3>
-        <div class="modal-warning">
-            🔓 永久免费 · 仅学习交流<br>
-            🚫 严禁任何贩卖行为，一经发现封禁<br>
-            🛡️ 修改视距风险自负，请遵守游戏规则<br>
-            💎 本工具永不收费，谨防受骗
+        <div style="font-size: 40px;">🛡️</div>
+        <h3>仅供学习 · 禁止贩卖</h3>
+        <div class="warning">
+            🔓 永久免费 · 风险自负<br>
+            🚫 严禁盗卖，否则封禁
         </div>
-        <div class="input-group">
-            <input type="text" id="confirmInput" placeholder="输入「OK」同意条款" autocomplete="off">
-            <div id="modalError" class="error-tip"></div>
-        </div>
-        <button class="modal-btn" id="confirmBtn">✅ 确认进入 · 免费使用</button>
-        <div class="footer-note" style="margin-top:10px;">✊ 加入频道获取免费教程</div>
+        <input type="text" id="okInput" placeholder="输入「OK」同意" autocomplete="off">
+        <div id="modalError" style="color:#e67e22; font-size:11px;"></div>
+        <button id="confirmBtn">确认进入</button>
     </div>
 </div>
 
-<!-- 主工具界面 -->
-<div id="mainTool" class="tool-container">
-    <div class="glass-card">
-        <div class="hero">
-            <div class="free-badge"> 💎𝐓𝐆频道@𝐢𝐎𝐒𝐀𝐖𝐉 </div>
-            <div class="hero-icon">🈲️禁止任何盗卖</div>
-            <h1> 王者·𝐒𝟒𝟑视距 </h1>
-            <div class="hero-badge">自定义视距 · 修复版</div>
-        </div>
+<div id="mainUI" style="display: none;">
+    <div class="container">
+        <div class="badge">𝐓𝐆频道 @𝐢𝐎𝐒𝐀𝐖𝐉</div>
+        <h1>王者·S43视距</h1>
+        <p style="font-size:12px; color:#666;">自定义视距 · 修复版</p>
 
-        <button id="button1" class="action-btn btn-primary">
-            🌟 ① 2.0倍视距
-        </button>
-        <button id="button2" class="action-btn">
-            🎛️ ② 自定义视距 (0.1~9.9)
-        </button>
+        <button id="btn1" class="btn btn-primary">🌟 2.0倍视距</button>
+        <button id="btn2" class="btn">🎛️ 自定义视距 (0.1~9.9)</button>
 
-        <!-- 偏移校准区域 -->
-        <div class="offset-row">
-            <input type="text" id="offsetInput" class="offset-input" placeholder="偏移(hex) 默认 0x12ACEE98">
-            <button id="updateOffsetBtn" class="small-btn">校准偏移</button>
-        </div>
-
-        <div class="divider"></div>
-
-        <button id="tgChannelBtn" class="action-btn channel-btn">
-            ✈️ 加入 TG 频道 · 免费资源
-        </button>
-
-        <div class="footer-note">
-            <span>© 2026 爱玩机</span>
-            <span>🌹 学习研究</span>
-            <a href="#" id="fakeChannelLink">📢 免费加入</a>
-        </div>
-        <div class="flex-center">
-            <span class="status-tip" id="gameStatusText">⚙️ 等待游戏连接...</span>
+        <div class="status" id="statusMsg">⚙️ 等待游戏连接...</div>
+        <div class="footer">
+            <a href="#" id="tgLink">✈️ 加入TG频道</a> &nbsp;|&nbsp; © 2026 爱玩机
         </div>
     </div>
 </div>
 
 <script>
-    // ==================== 确保 h5gg 对象存在（从父窗口获取，避免重复定义） ====================
+    // ========== 获取父窗口的 h5gg（避免重复定义） ==========
     if (typeof h5gg === 'undefined' && window.parent && window.parent.h5gg) {
         window.h5gg = window.parent.h5gg;
     }
     if (typeof h5gg === 'undefined') {
-        alert('❌ 请在游戏内通过 H5GG 运行此插件');
+        alert('请在游戏内通过 H5GG 运行此插件');
         throw new Error('h5gg not found');
     }
 
-    // ==================== 全局变量 ====================
-    let OFFSET_CAMERA = 0x12ACEE98;      // 默认偏移，可动态修改
+    // ========== 全局变量 ==========
     let gameProcess = null;
     let memoryBase = null;
     let isActive1 = false;
-    let isActive2 = false;
     let checkInterval = null;
+    const OFFSET_CAMERA = 0x12ACEE98;  // 固定偏移，如需更新请修改此处或提供新版本
 
-    const mainTool = document.getElementById('mainTool');
-    const modalOverlay = document.getElementById('entryModal');
-    const confirmInput = document.getElementById('confirmInput');
+    // DOM 元素
+    const modal = document.getElementById('entryModal');
+    const mainUI = document.getElementById('mainUI');
+    const okInput = document.getElementById('okInput');
     const confirmBtn = document.getElementById('confirmBtn');
     const modalError = document.getElementById('modalError');
-    const gameStatusSpan = document.getElementById('gameStatusText');
-    const offsetInput = document.getElementById('offsetInput');
-    const updateOffsetBtn = document.getElementById('updateOffsetBtn');
+    const statusSpan = document.getElementById('statusMsg');
+    const btn1 = document.getElementById('btn1');
+    const btn2 = document.getElementById('btn2');
+    const tgLink = document.getElementById('tgLink');
 
-    // 频道链接
-    const channelUrl = "https://t.me/iOSAWJ";
-    document.getElementById('tgChannelBtn').addEventListener('click', () => window.open(channelUrl, '_blank'));
-    document.getElementById('fakeChannelLink').addEventListener('click', (e) => {
+    tgLink.addEventListener('click', (e) => {
         e.preventDefault();
-        window.open(channelUrl, '_blank');
+        window.open('https://t.me/iOSAWJ', '_blank');
     });
 
-    // 显示偏移默认值
-    offsetInput.value = "0x12ACEE98";
-
-    // 更新偏移量
-    function updateOffset() {
-        let raw = offsetInput.value.trim();
-        if (raw === "") return;
-        let newOffset;
-        if (raw.startsWith("0x") || raw.startsWith("0X")) {
-            newOffset = parseInt(raw, 16);
-        } else {
-            newOffset = parseInt(raw, 16);
-            if (isNaN(newOffset)) newOffset = parseFloat(raw);
-        }
-        if (isNaN(newOffset)) {
-            alert("偏移格式错误，请输入十六进制，如 0x12ACEE98");
-            return;
-        }
-        OFFSET_CAMERA = newOffset;
-        alert(`偏移已更新为: 0x${OFFSET_CAMERA.toString(16)}`);
-    }
-    updateOffsetBtn.addEventListener('click', updateOffset);
-
-    // 更新底部状态
-    function updateGameStatus(msg, isErr = false) {
-        if (gameStatusSpan) {
-            gameStatusSpan.textContent = msg;
-            gameStatusSpan.style.color = isErr ? "#e67e22" : "#2a7a50";
-        }
+    function updateStatus(msg, isErr = false) {
+        statusSpan.textContent = msg;
+        statusSpan.style.color = isErr ? '#e67e22' : '#2a7a50';
     }
 
-    // ==================== 增强的进程查找 ====================
+    // ========== 进程检测（增强） ==========
     function findGameProcess() {
         try {
             const procs = h5gg.getProcList();
-            if (!procs || procs.length === 0) return null;
+            if (!procs) return null;
             for (let p of procs) {
                 if (p && p.name) {
                     let name = p.name.toLowerCase();
@@ -390,180 +216,148 @@
             }
             return null;
         } catch(e) {
-            console.error("获取进程列表失败", e);
+            console.error(e);
             return null;
         }
     }
 
-    // ==================== 获取内存基址（优先 UnityFramework） ====================
     function getMemoryBase() {
         try {
-            const ranges = h5gg.getRangesList(); // 获取所有内存区域
+            const ranges = h5gg.getRangesList();
             if (!ranges) return null;
-            // 1. 找 UnityFramework
+            // 优先找 UnityFramework
             let target = ranges.find(r => r.name && r.name.includes('UnityFramework'));
-            // 2. 找包含 smoba 的模块
             if (!target) {
                 target = ranges.find(r => r.name && r.name.toLowerCase().includes('smoba'));
             }
-            // 3. 保底：取第一个可读写的区域
             if (!target) {
                 target = ranges.find(r => r.protection && r.protection.includes('rw'));
             }
             return target ? target.start : null;
         } catch(e) {
-            console.error("获取内存基址失败", e);
+            console.error(e);
             return null;
         }
     }
 
-    // ==================== 设置视距（使用当前偏移） ====================
+    // ========== 修改视距 ==========
     function setCameraDistance(val) {
         if (!gameProcess || !memoryBase) {
-            alert("游戏未连接，请启动王者荣耀并进入对局（训练营亦可）");
+            alert("请先启动王者荣耀并进入对局");
             return false;
         }
         try {
             const baseAddr = Number(memoryBase) + OFFSET_CAMERA;
             const ptr1 = h5gg.getValue(baseAddr, 'I64');
-            if (!ptr1 || ptr1 === 0) throw new Error("一级指针为空");
+            if (!ptr1 || ptr1 === 0) throw new Error("指针1无效");
             const ptr2 = h5gg.getValue(Number(ptr1) + 0xB8, 'I64');
-            if (!ptr2 || ptr2 === 0) throw new Error("二级指针为空");
+            if (!ptr2 || ptr2 === 0) throw new Error("指针2无效");
             const finalAddr = Number(ptr2) + 0x29C;
             h5gg.setValue(finalAddr, val, 'F32');
             return true;
         } catch(e) {
-            console.error(e);
-            alert(`修改失败：${e.message}\n当前偏移: 0x${OFFSET_CAMERA.toString(16)}\n请检查偏移是否正确，或在频道获取最新值`);
+            alert("修改失败，可能偏移已失效，请更新插件版本");
             return false;
         }
     }
 
-    // ==================== 检查并连接游戏 ====================
-    function checkAndConnect() {
+    // ========== 连接游戏（定期重试） ==========
+    function connectGame() {
         if (!gameProcess) {
             gameProcess = findGameProcess();
             if (gameProcess) {
                 h5gg.setTargetProc(gameProcess.pid);
-                updateGameStatus(`✅ 找到进程: ${gameProcess.name}`);
+                updateStatus(`✅ 进程: ${gameProcess.name}`);
             }
         }
         if (gameProcess && !memoryBase) {
             memoryBase = getMemoryBase();
             if (memoryBase) {
-                updateGameStatus(`✅ 基址: 0x${memoryBase.toString(16)} | 偏移: 0x${OFFSET_CAMERA.toString(16)}`);
+                updateStatus(`✅ 基址: 0x${memoryBase.toString(16)} 就绪`);
             }
         }
         if (gameProcess && memoryBase) {
-            updateGameStatus("✨ 已就绪，可调节视距");
+            updateStatus("✨ 已就绪，可调节视距");
             return true;
         }
-        updateGameStatus("⏳ 等待王者荣耀启动... (请进入对局)");
+        updateStatus("⏳ 等待王者荣耀启动...");
         return false;
     }
 
-    // 定期重试
-    function startMonitoring() {
+    function startMonitor() {
         if (checkInterval) clearInterval(checkInterval);
-        checkAndConnect();
+        connectGame();
         checkInterval = setInterval(() => {
-            if (!gameProcess || !memoryBase) {
-                checkAndConnect();
-            }
+            if (!gameProcess || !memoryBase) connectGame();
         }, 5000);
     }
 
-    // ==================== UI 交互 ====================
-    function toggleMenu1() {
-        const btn1 = document.getElementById('button1');
-        if (!gameProcess || !memoryBase) { alert("请先启动王者荣耀并进入对局"); return; }
+    // ========== 按钮交互 ==========
+    function onBtn1() {
+        if (!gameProcess || !memoryBase) {
+            alert("游戏未连接，请启动王者荣耀并进入对局");
+            return;
+        }
         if (!isActive1) {
             if (setCameraDistance(2.0)) {
                 isActive1 = true;
-                btn1.classList.add('active-special');
-                btn1.innerHTML = '✅ ① 2.0倍 · 已激活';
-                if (isActive2) {
-                    const btn2 = document.getElementById('button2');
-                    btn2.classList.remove('active-special');
-                    btn2.innerHTML = '🎛️ ② 自定义视距 (0.1~9.9)';
-                    isActive2 = false;
+                btn1.classList.add('btn-active');
+                btn1.innerHTML = '✅ 2.0倍·已激活';
+                if (btn2.classList.contains('btn-active')) {
+                    btn2.classList.remove('btn-active');
+                    btn2.innerHTML = '🎛️ 自定义视距 (0.1~9.9)';
                 }
             }
         } else {
-            if (confirm("关闭2.0倍视距？恢复默认请重进游戏")) {
+            if (confirm("关闭2.0倍？恢复默认需重进游戏")) {
                 isActive1 = false;
-                btn1.classList.remove('active-special');
-                btn1.innerHTML = '🌟 ① 2.0倍视距';
+                btn1.classList.remove('btn-active');
+                btn1.innerHTML = '🌟 2.0倍视距';
             }
         }
     }
 
-    function toggleMenu2() {
-        const btn2 = document.getElementById('button2');
-        if (!gameProcess || !memoryBase) { alert("请先启动王者荣耀"); return; }
-        let input = prompt("请输入视距倍数 (0.1~9.9)", "2.2");
+    function onBtn2() {
+        if (!gameProcess || !memoryBase) {
+            alert("游戏未连接");
+            return;
+        }
+        let input = prompt("输入视距倍数 (0.1~9.9)", "2.5");
         if (input === null) return;
         let val = parseFloat(input);
-        if (isNaN(val) || val < 0.1 || val > 9.9) { alert("请输入 0.1~9.9 之间的数字"); return; }
+        if (isNaN(val) || val < 0.1 || val > 9.9) {
+            alert("请输入0.1~9.9之间的数字");
+            return;
+        }
         if (setCameraDistance(val)) {
             if (isActive1) {
-                const btn1 = document.getElementById('button1');
-                btn1.classList.remove('active-special');
-                btn1.innerHTML = '🌟 ① 2.0倍视距';
                 isActive1 = false;
+                btn1.classList.remove('btn-active');
+                btn1.innerHTML = '🌟 2.0倍视距';
             }
-            isActive2 = true;
-            btn2.classList.add('active-special');
-            btn2.innerHTML = `🎯 ② 自定义[${val}x] · 生效`;
+            btn2.classList.add('btn-active');
+            btn2.innerHTML = `🎯 自定义[${val}x]生效`;
         }
     }
 
-    // ==================== 验证与初始化 ====================
-    function initAfterVerify() {
-        if (window._initialized) return;
-        window._initialized = true;
-
-        const btn1 = document.getElementById('button1');
-        const btn2 = document.getElementById('button2');
-        // 重新绑定事件（避免重复绑定）
-        const newBtn1 = btn1.cloneNode(true);
-        const newBtn2 = btn2.cloneNode(true);
-        btn1.parentNode.replaceChild(newBtn1, btn1);
-        btn2.parentNode.replaceChild(newBtn2, btn2);
-        document.getElementById('button1').addEventListener('click', toggleMenu1);
-        document.getElementById('button2').addEventListener('click', toggleMenu2);
-
-        updateGameStatus("🔌 连接游戏进程...");
-        startMonitoring();
-    }
-
-    function verifyAndEnter() {
-        const userInput = confirmInput.value.trim();
-        if (userInput === "OK") {
-            modalOverlay.style.opacity = "0";
-            setTimeout(() => {
-                modalOverlay.style.display = "none";
-                mainTool.classList.add("visible");
-                initAfterVerify();
-            }, 200);
+    // ========== 验证与启动 ==========
+    function verifyAndStart() {
+        if (okInput.value.trim() === "OK") {
+            modal.style.display = "none";
+            mainUI.style.display = "block";
+            startMonitor();
+            btn1.addEventListener('click', onBtn1);
+            btn2.addEventListener('click', onBtn2);
         } else {
-            modalError.innerText = "⚠️ 请输入「OK」确认条款";
-            confirmInput.style.borderColor = "#e67e22";
-            setTimeout(() => {
-                modalError.innerText = "";
-                confirmInput.style.borderColor = "#d4dcd4";
-            }, 1500);
+            modalError.innerText = "请输入「OK」";
+            setTimeout(() => modalError.innerText = "", 1500);
         }
     }
 
-    confirmBtn.addEventListener('click', verifyAndEnter);
-    confirmInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') verifyAndEnter(); });
-
-    mainTool.classList.remove('visible');
-    modalOverlay.style.display = 'flex';
+    confirmBtn.addEventListener('click', verifyAndStart);
+    okInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') verifyAndStart(); });
 
     window.addEventListener('beforeunload', () => { if(checkInterval) clearInterval(checkInterval); });
-    console.log("✅ 修复版已加载 | 偏移可校准 | 进程检测增强");
 </script>
 </body>
 </html>
