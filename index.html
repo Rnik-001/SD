@@ -5,241 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>王者视距 · 极简小屏版</title>
     <style>
-        /* 完整保留原版样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
-            padding: 12px;
-        }
-        .tool-container {
-            width: 100%;
-            max-width: 340px;
-            margin: 0 auto;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .tool-container.visible {
-            opacity: 1;
-        }
-        .glass-card {
-            background: #ffffff;
-            border-radius: 28px;
-            padding: 18px 16px 22px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-            border: 1px solid #edf2ef;
-        }
-        .hero {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-        .free-badge {
-            display: inline-block;
-            background: #fff3e0;
-            padding: 3px 10px;
-            border-radius: 30px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #c27e2a;
-            margin-bottom: 8px;
-            border: 0.5px solid #ffe0a3;
-        }
-        .hero-icon {
-            font-size: 36px;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-        .hero h1 {
-            font-size: 22px;
-            font-weight: 800;
-            color: #1f8a5c;
-            margin-bottom: 4px;
-        }
-        .hero-badge {
-            font-size: 10px;
-            background: #f5faf7;
-            padding: 3px 10px;
-            border-radius: 30px;
-            display: inline-block;
-            color: #2c6e4a;
-        }
-        .action-btn {
-            width: 100%;
-            padding: 10px 12px;
-            margin: 6px 0;
-            border-radius: 60px;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: center;
-            background: #ffffff;
-            border: 1px solid #e2e8e2;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .action-btn:active {
-            transform: scale(0.97);
-            background: #fafcfa;
-        }
-        .btn-primary {
-            background: #23b574;
-            color: white;
-            border: none;
-        }
-        .channel-btn {
-            background: #1e2f3c;
-            color: #ffecb3;
-            border: 1px solid #3e5a6b;
-        }
-        .active-special {
-            background: #e2f3e9;
-            border: 1.5px solid #23b574;
-            color: #136b45;
-        }
-        .divider {
-            height: 1px;
-            background: #edf2ef;
-            margin: 14px 0 12px;
-        }
-        .footer-note {
-            font-size: 10px;
-            text-align: center;
-            color: #6c757d;
-            margin-top: 14px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            padding: 4px 0;
-        }
-        .footer-note a {
-            color: #1f8a5c;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .status-tip {
-            font-size: 10px;
-            background: #f8faf8;
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 30px;
-            margin-top: 12px;
-            color: #2c6e4a;
-            text-align: center;
-        }
-        .flex-center {
-            display: flex;
-            justify-content: center;
-        }
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-        .modal-card {
-            width: 86%;
-            max-width: 300px;
-            background: #ffffff;
-            border-radius: 32px;
-            padding: 20px 18px 24px;
-            text-align: center;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            border: 1px solid #e0e7e0;
-        }
-        .modal-icon {
-            font-size: 40px;
-            margin-bottom: 6px;
-        }
-        .modal-card h3 {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1f8a5c;
-            margin-bottom: 8px;
-        }
-        .modal-warning {
-            font-size: 12px;
-            background: #fefaf0;
-            padding: 10px;
-            border-radius: 20px;
-            text-align: left;
-            margin: 12px 0;
-            border-left: 3px solid #23b574;
-            line-height: 1.4;
-            color: #2b4e3a;
-        }
-        .input-group {
-            margin: 12px 0 10px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 60px;
-            border: 1.5px solid #d4dcd4;
-            background: #ffffff !important;
-            font-size: 14px;
-            text-align: center;
-            font-weight: 500;
-            outline: none;
-            color: #1a2e24;
-            box-shadow: none;
-            -webkit-appearance: none;
-        }
-        .input-group input:focus {
-            border-color: #23b574;
-            box-shadow: 0 0 0 2px rgba(35, 181, 116, 0.1);
-            background: #ffffff !important;
-        }
-        .modal-btn {
-            background: #23b574;
-            width: 100%;
-            padding: 10px;
-            border-radius: 60px;
-            border: none;
-            color: white;
-            font-weight: bold;
-            font-size: 15px;
-            margin-top: 6px;
-            cursor: pointer;
-        }
-        .modal-btn:active {
-            transform: scale(0.97);
-            background: #1a8c5a;
-        }
-        .error-tip {
-            font-size: 10px;
-            color: #e67e22;
-            margin-top: 4px;
-        }
-        .modal-footer-note {
-            font-size: 9px;
-            margin-top: 10px;
-            color: #7c8c7c;
-        }
+        /* 原版样式，未改动 */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: #ffffff; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif; padding: 12px; }
+        .tool-container { width: 100%; max-width: 340px; margin: 0 auto; opacity: 0; transition: opacity 0.3s ease; }
+        .tool-container.visible { opacity: 1; }
+        .glass-card { background: #ffffff; border-radius: 28px; padding: 18px 16px 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid #edf2ef; }
+        .hero { text-align: center; margin-bottom: 16px; }
+        .free-badge { display: inline-block; background: #fff3e0; padding: 3px 10px; border-radius: 30px; font-size: 10px; font-weight: 700; color: #c27e2a; margin-bottom: 8px; border: 0.5px solid #ffe0a3; }
+        .hero-icon { font-size: 36px; line-height: 1; margin-bottom: 4px; }
+        .hero h1 { font-size: 22px; font-weight: 800; color: #1f8a5c; margin-bottom: 4px; }
+        .hero-badge { font-size: 10px; background: #f5faf7; padding: 3px 10px; border-radius: 30px; display: inline-block; color: #2c6e4a; }
+        .action-btn { width: 100%; padding: 10px 12px; margin: 6px 0; border-radius: 60px; font-size: 14px; font-weight: 600; text-align: center; background: #ffffff; border: 1px solid #e2e8e2; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .action-btn:active { transform: scale(0.97); background: #fafcfa; }
+        .btn-primary { background: #23b574; color: white; border: none; }
+        .channel-btn { background: #1e2f3c; color: #ffecb3; border: 1px solid #3e5a6b; }
+        .active-special { background: #e2f3e9; border: 1.5px solid #23b574; color: #136b45; }
+        .divider { height: 1px; background: #edf2ef; margin: 14px 0 12px; }
+        .footer-note { font-size: 10px; text-align: center; color: #6c757d; margin-top: 14px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 4px 0; }
+        .footer-note a { color: #1f8a5c; text-decoration: none; font-weight: 500; }
+        .status-tip { font-size: 10px; background: #f8faf8; display: inline-block; padding: 4px 12px; border-radius: 30px; margin-top: 12px; color: #2c6e4a; text-align: center; }
+        .flex-center { display: flex; justify-content: center; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+        .modal-card { width: 86%; max-width: 300px; background: #ffffff; border-radius: 32px; padding: 20px 18px 24px; text-align: center; box-shadow: 0 15px 30px rgba(0,0,0,0.15); border: 1px solid #e0e7e0; }
+        .modal-icon { font-size: 40px; margin-bottom: 6px; }
+        .modal-card h3 { font-size: 20px; font-weight: 800; color: #1f8a5c; margin-bottom: 8px; }
+        .modal-warning { font-size: 12px; background: #fefaf0; padding: 10px; border-radius: 20px; text-align: left; margin: 12px 0; border-left: 3px solid #23b574; line-height: 1.4; color: #2b4e3a; }
+        .input-group { margin: 12px 0 10px; }
+        .input-group input { width: 100%; padding: 10px 14px; border-radius: 60px; border: 1.5px solid #d4dcd4; background: #ffffff !important; font-size: 14px; text-align: center; font-weight: 500; outline: none; color: #1a2e24; box-shadow: none; -webkit-appearance: none; }
+        .input-group input:focus { border-color: #23b574; box-shadow: 0 0 0 2px rgba(35,181,116,0.1); background: #ffffff !important; }
+        .modal-btn { background: #23b574; width: 100%; padding: 10px; border-radius: 60px; border: none; color: white; font-weight: bold; font-size: 15px; margin-top: 6px; cursor: pointer; }
+        .modal-btn:active { transform: scale(0.97); background: #1a8c5a; }
+        .error-tip { font-size: 10px; color: #e67e22; margin-top: 4px; }
+        .modal-footer-note { font-size: 9px; margin-top: 10px; color: #7c8c7c; }
     </style>
 </head>
 <body>
-
-<!-- 验证弹窗 -->
 <div id="entryModal" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-icon">🔴🟡🟢</div>
@@ -259,7 +60,6 @@
     </div>
 </div>
 
-<!-- 主工具界面 -->
 <div id="mainTool" class="tool-container">
     <div class="glass-card">
         <div class="hero">
@@ -268,20 +68,10 @@
             <h1> 王者· 𝐒𝟒𝟒视距 </h1>
             <div class="hero-badge">自定义视距 · 流畅高帧</div>
         </div>
-
-        <button id="button1" class="action-btn btn-primary">
-            🌟 ① 2.0倍视距
-        </button>
-        <button id="button2" class="action-btn">
-            🎛️ ② 自定义视距 (0.1~9.9)
-        </button>
-
+        <button id="button1" class="action-btn btn-primary">🌟 ① 2.0倍视距</button>
+        <button id="button2" class="action-btn">🎛️ ② 自定义视距 (0.1~9.9)</button>
         <div class="divider"></div>
-
-        <button id="tgChannelBtn" class="action-btn channel-btn">
-            ✈️ 加入 TG 频道 · 免费资源
-        </button>
-
+        <button id="tgChannelBtn" class="action-btn channel-btn">✈️ 加入 TG 频道 · 免费资源</button>
         <div class="footer-note">
             <span>© 2026 爱玩机</span>
             <span>🌹 学习研究</span>
@@ -295,7 +85,6 @@
 
 <script>
     (function() {
-        // ---------- 1. 确保 h5gg 可用 ----------
         if (typeof h5gg === 'undefined') {
             if (window.parent && typeof window.parent.h5gg !== 'undefined') {
                 window.h5gg = window.parent.h5gg;
@@ -305,7 +94,6 @@
             }
         }
 
-        // ---------- 2. 全局变量 ----------
         let memoryBase = null;
         let isActive1 = false;
         let isActive2 = false;
@@ -319,10 +107,7 @@
 
         const channelUrl = "https://t.me/iOSAWJ";
         document.getElementById('tgChannelBtn').addEventListener('click', () => window.open(channelUrl, '_blank'));
-        document.getElementById('fakeChannelLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.open(channelUrl, '_blank');
-        });
+        document.getElementById('fakeChannelLink').addEventListener('click', (e) => { e.preventDefault(); window.open(channelUrl, '_blank'); });
 
         function updateGameStatus(msg, isErr = false) {
             if (gameStatusSpan) {
@@ -331,21 +116,15 @@
             }
         }
 
-        // ---------- 3. 获取基址 ----------
         function getMemoryBase() {
             try {
                 const ranges = h5gg.getRangesList('UnityFramework');
-                if (ranges && ranges.length > 0) {
-                    return ranges[0].start;
-                }
+                if (ranges && ranges.length > 0) return ranges[0].start;
                 return null;
-            } catch(e) {
-                console.error("获取基址失败", e);
-                return null;
-            }
+            } catch(e) { return null; }
         }
 
-        // ---------- 4. 核心修改函数（两次 0xB8 + 最终偏移 0x2A4） ----------
+        // ========== 唯一改动点：指针链 ==========
         function setCameraDistance(val) {
             if (!memoryBase) {
                 alert("内存基址未就绪，请重试");
@@ -353,8 +132,9 @@
             }
             try {
                 const baseAddr = Number(memoryBase) + 0x129AA418;
-                const chain1 = Number(h5gg.getValue(baseAddr, 'I64')) + 0xB8;      // 第一次 +0xB8
-                const finalAddr = Number(h5gg.getValue(chain1, 'I64')) + 0x2A4;    // 第二次取值后 +0x2A4（改了这里）
+                const chain1 = Number(h5gg.getValue(baseAddr, 'I64')) + 0xB8;
+                const chain2 = Number(h5gg.getValue(chain1, 'I64')) + 0xB8;      // 新增：第二次 +0xB8 解引用
+                const finalAddr = Number(h5gg.getValue(chain2, 'I64')) + 0x2A4;  // 修改：0x29C → 0x2A4
                 h5gg.setValue(finalAddr, val, 'F32');
                 return true;
             } catch(e) {
@@ -363,13 +143,9 @@
             }
         }
 
-        // ---------- 5. 按钮逻辑 ----------
         function toggleMenu1() {
             const btn1 = document.getElementById('button1');
-            if (!memoryBase) {
-                alert("游戏基址未就绪，请重新进入");
-                return;
-            }
+            if (!memoryBase) { alert("游戏基址未就绪，请重新进入"); return; }
             if (!isActive1) {
                 if (setCameraDistance(2.0)) {
                     isActive1 = true;
@@ -395,17 +171,11 @@
 
         function toggleMenu2() {
             const btn2 = document.getElementById('button2');
-            if (!memoryBase) {
-                alert("游戏基址未就绪，请重新进入");
-                return;
-            }
+            if (!memoryBase) { alert("游戏基址未就绪，请重新进入"); return; }
             let input = prompt("请输入视距倍数 (0.1~9.9)", "2.2");
             if (input === null) return;
             let val = parseFloat(input);
-            if (isNaN(val) || val < 0.1 || val > 9.9) {
-                alert("请输入 0.1~9.9 之间的数字");
-                return;
-            }
+            if (isNaN(val) || val < 0.1 || val > 9.9) { alert("请输入 0.1~9.9 之间的数字"); return; }
             if (setCameraDistance(val)) {
                 if (isActive1) {
                     const btn1 = document.getElementById('button1');
@@ -431,7 +201,6 @@
             document.getElementById('button2').addEventListener('click', toggleMenu2);
         }
 
-        // ---------- 6. 验证并初始化 ----------
         function verifyAndEnter() {
             const userInput = confirmInput.value.trim();
             if (userInput === "OK") {
@@ -441,24 +210,16 @@
                     updateGameStatus("正在获取内存基址...");
                     try {
                         memoryBase = getMemoryBase();
-                        if (memoryBase) {
-                            updateGameStatus("✅ 基址就绪 · 可调节视距");
-                        } else {
-                            updateGameStatus("⚠️ 无法获取基址，请检查游戏进程", true);
-                        }
-                    } catch(e) {
-                        updateGameStatus("❌ 基址获取失败: " + e.message, true);
-                    }
+                        if (memoryBase) updateGameStatus("✅ 基址就绪 · 可调节视距");
+                        else updateGameStatus("⚠️ 无法获取基址，请检查游戏进程", true);
+                    } catch(e) { updateGameStatus("❌ 基址获取失败: " + e.message, true); }
                     mainTool.classList.add("visible");
                     bindEvents();
                 }, 200);
             } else {
                 modalError.innerText = "⚠️ 请输入「OK」确认条款";
                 confirmInput.style.borderColor = "#e67e22";
-                setTimeout(() => {
-                    modalError.innerText = "";
-                    confirmInput.style.borderColor = "#d4dcd4";
-                }, 1500);
+                setTimeout(() => { modalError.innerText = ""; confirmInput.style.borderColor = "#d4dcd4"; }, 1500);
             }
         }
 
