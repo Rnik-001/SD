@@ -1,180 +1,473 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- 确保视口正确，禁止缩放以保持精确布局 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>光合战队 · 横竖屏居中弹窗</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>王者视距 · 极简小屏版</title>
     <style>
-        /* 彻底重置内外边距，防止任何意外偏移 */
+        /* 完整保留原版样式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* 禁用选中，提升触摸体验 */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-
-        html, body {
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            padding: 12px;
+        }
+        .tool-container {
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .tool-container.visible {
+            opacity: 1;
+        }
+        .glass-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 18px 16px 22px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #edf2ef;
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .free-badge {
+            display: inline-block;
+            background: #fff3e0;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #c27e2a;
+            margin-bottom: 8px;
+            border: 0.5px solid #ffe0a3;
+        }
+        .hero-icon {
+            font-size: 36px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .hero h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1f8a5c;
+            margin-bottom: 4px;
+        }
+        .hero-badge {
+            font-size: 10px;
+            background: #f5faf7;
+            padding: 3px 10px;
+            border-radius: 30px;
+            display: inline-block;
+            color: #2c6e4a;
+        }
+        .action-btn {
+            width: 100%;
+            padding: 10px 12px;
+            margin: 6px 0;
+            border-radius: 60px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #e2e8e2;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .action-btn:active {
+            transform: scale(0.97);
+            background: #fafcfa;
+        }
+        .btn-primary {
+            background: #23b574;
+            color: white;
+            border: none;
+        }
+        .channel-btn {
+            background: #1e2f3c;
+            color: #ffecb3;
+            border: 1px solid #3e5a6b;
+        }
+        .active-special {
+            background: #e2f3e9;
+            border: 1.5px solid #23b574;
+            color: #136b45;
+        }
+        .divider {
+            height: 1px;
+            background: #edf2ef;
+            margin: 14px 0 12px;
+        }
+        .footer-note {
+            font-size: 10px;
+            text-align: center;
+            color: #6c757d;
+            margin-top: 14px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 4px 0;
+        }
+        .footer-note a {
+            color: #1f8a5c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .status-tip {
+            font-size: 10px;
+            background: #f8faf8;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            margin-top: 12px;
+            color: #2c6e4a;
+            text-align: center;
+        }
+        .flex-center {
+            display: flex;
+            justify-content: center;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: transparent;  /* 完全透明，让底层游戏画面透出 */
-            overflow: hidden;         /* 禁止滚动，避免弹窗被推动 */
-            position: fixed;          /* 某些环境下加固固定定位 */
-        }
-
-        /* 弹窗卡片：始终居中，宽度自适应，高度由内容撑开，带安全边界 */
-        .glass-card {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: min(350px, 85vw);          /* 小屏上自动缩小，最大350px */
-            max-width: 90vw;                   /* 极端情况保护 */
-            max-height: 90vh;                   /* 不超过视口高度90% */
-            overflow-y: auto;                    /* 如果内容太多允许滚动（极少出现） */
-            -webkit-overflow-scrolling: touch;    /* 平滑滚动 */
-
-            /* 背景与毛玻璃效果 */
-            background: rgba(20, 20, 30, 0.75);
-            backdrop-filter: blur(15px) saturate(180%);
-            -webkit-backdrop-filter: blur(15px) saturate(180%);
-            border-radius: 35px;
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 215, 0, 0.3) inset;
-
-            /* 内边距用上下左右均衡，保证内容呼吸 */
-            padding: 24px 20px;
-
-            /* 弹性布局，垂直排列，保证内容紧凑 */
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px;                          /* 统一子元素间距，不再依赖外边距 */
+            z-index: 2000;
         }
-
-        /* 隐藏滚动条（保留功能但视觉干净） */
-        .glass-card::-webkit-scrollbar {
-            display: none;
+        .modal-card {
+            width: 86%;
+            max-width: 300px;
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 20px 18px 24px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e0e7e0;
         }
-        .glass-card {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .modal-icon {
+            font-size: 40px;
+            margin-bottom: 6px;
         }
-
-        /* 闪烁免费提示（自适应内部文本） */
-        .free-badge {
-            font-size: clamp(22px, 6vw, 28px);   /* 响应式字体，最小22，最大28 */
+        .modal-card h3 {
+            font-size: 20px;
             font-weight: 800;
-            text-align: center;
-            padding: 16px 12px;
+            color: #1f8a5c;
+            margin-bottom: 8px;
+        }
+        .modal-warning {
+            font-size: 12px;
+            background: #fefaf0;
+            padding: 10px;
+            border-radius: 20px;
+            text-align: left;
+            margin: 12px 0;
+            border-left: 3px solid #23b574;
+            line-height: 1.4;
+            color: #2b4e3a;
+        }
+        .input-group {
+            margin: 12px 0 10px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px 14px;
             border-radius: 60px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-            border: 2px solid #ffd966;
-            width: 100%;
-            animation: blink-glow 1.2s infinite ease-in-out;
-            color: #ffe68f;
-            text-shadow: 0 0 5px #ffb347, 0 0 15px #ff8c00;
-            line-height: 1.3;
-            word-break: break-word;              /* 防止长单词溢出 */
-        }
-
-        @keyframes blink-glow {
-            0% { color: #ffe68f; text-shadow: 0 0 5px #ffb347, 0 0 15px #ff8c00; border-color: #ffb347; background-color: rgba(0,0,0,0.5); }
-            50% { color: #ffffff; text-shadow: 0 0 15px #ffaa33, 0 0 30px #ff7700; border-color: #ffffff; background-color: rgba(30,30,40,0.7); }
-            100% { color: #ffe68f; text-shadow: 0 0 5px #ffb347, 0 0 15px #ff8c00; border-color: #ffb347; background-color: rgba(0,0,0,0.5); }
-        }
-
-        /* 醒目TG跳转按钮——使用<a>标签以保证原生跳转，但样式完全自定义 */
-        .tg-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 16px 12px;
-            background: rgba(0, 120, 220, 0.3);
-            backdrop-filter: blur(4px);
-            border-radius: 50px;
-            border: 2px solid #4aa0ff;
-            box-shadow: 0 0 25px #0066ff, 0 4px 10px rgba(0,0,0,0.3);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            width: 100%;
-            color: white;
-            font-weight: 700;
-            font-size: clamp(18px, 5vw, 22px);   /* 响应式字体 */
-            text-shadow: 0 0 8px #0099ff, 0 0 16px #0066cc;
-            letter-spacing: 0.5px;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            -webkit-appearance: none;
-            box-sizing: border-box;
-        }
-
-        .tg-link:active {
-            transform: scale(0.96);
-            background: rgba(0, 150, 255, 0.5);
-            box-shadow: 0 0 35px #00aaff;
-        }
-
-        .tg-icon {
-            font-size: 1.4em;            /* 相对单位，跟随按钮字体 */
-            filter: drop-shadow(0 0 6px #0099ff);
-            line-height: 1;
-        }
-
-        /* 底部小提示（自适应折行） */
-        .hint-text {
-            margin-top: 4px;
-            font-size: clamp(12px, 3.5vw, 14px);
-            color: rgba(255, 255, 255, 0.7);
-            text-shadow: 0 1px 3px black;
-            border-top: 1px dashed rgba(255,255,255,0.2);
-            padding-top: 15px;
-            width: 100%;
+            border: 1.5px solid #d4dcd4;
+            background: #ffffff !important;
+            font-size: 14px;
             text-align: center;
-            line-height: 1.5;
-            word-break: break-word;
+            font-weight: 500;
+            outline: none;
+            color: #1a2e24;
+            box-shadow: none;
+            -webkit-appearance: none;
         }
-
-        /* 修正错别字并保留原意（售卖者 → 售卖者） */
-        /* 同时也让 emoji 与文字和谐 */
+        .input-group input:focus {
+            border-color: #23b574;
+            box-shadow: 0 0 0 2px rgba(35, 181, 116, 0.1);
+            background: #ffffff !important;
+        }
+        .modal-btn {
+            background: #23b574;
+            width: 100%;
+            padding: 10px;
+            border-radius: 60px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+        .modal-btn:active {
+            transform: scale(0.97);
+            background: #1a8c5a;
+        }
+        .error-tip {
+            font-size: 10px;
+            color: #e67e22;
+            margin-top: 4px;
+        }
+        .modal-footer-note {
+            font-size: 9px;
+            margin-top: 10px;
+            color: #7c8c7c;
+        }
     </style>
 </head>
 <body>
+
+<!-- 验证弹窗 -->
+<div id="entryModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-icon">🔴🟡🟢</div>
+        <h3>仅供学习 · 禁止传播</h3>
+        <div class="modal-warning">
+            🔓 永久免费 · 仅学习交流<br>
+            🚫 严禁任何贩卖行为，一经发现封禁<br>
+            🛡️ 修改视距风险自负，请遵守游戏规则<br>
+            💎 本工具永不收费，谨防受骗
+        </div>
+        <div class="input-group">
+            <input type="text" id="confirmInput" placeholder="输入「OK」同意条款" autocomplete="off">
+            <div id="modalError" class="error-tip"></div>
+        </div>
+        <button class="modal-btn" id="confirmBtn">✅ 确认进入 · 免费使用</button>
+        <div class="modal-footer-note">✊ 加入频道获取免费教程</div>
+    </div>
+</div>
+
+<!-- 主工具界面 -->
+<div id="mainTool" class="tool-container">
     <div class="glass-card">
-        <!-- 闪烁核心提示 -->
-        <div class="free-badge">
-            🚫 本插件暂停使用 🚫
+        <div class="hero">
+            <div class="free-badge"> 💎𝐓𝐆频道@𝐢𝐎𝐒𝐀𝐖𝐉 </div>
+            <div class="hero-icon">🈲️禁止任何盗卖</div>
+            <h1> 王者· 𝐒𝟒𝟒视距 </h1>
+            <div class="hero-badge">自定义视距 · 流畅高帧</div>
         </div>
 
-        <!-- 使用 <a> 替代 button，保证跳转可靠；target="_blank" 在新标签页/外部应用打开 -->
-        <a class="tg-link" href="https://t.me/iOSAWJ" target="_blank" rel="noopener noreferrer">
-            <span class="tg-icon">✈️</span>
-            <span>𝐓𝐆频道 @𝐢𝐎𝐒𝐀𝐖𝐉</span>
-            <span class="tg-icon">📢</span>
-        </a>
+        <button id="button1" class="action-btn btn-primary">
+            🌟 ① 2.0倍视距
+        </button>
+        <button id="button2" class="action-btn">
+            🎛️ ② 自定义视距 (0.1~9.9)
+        </button>
 
-        <!-- 底部辅助提示（修正错别字，使文案更通顺） -->
-        <div class="hint-text">
-            ⚠️ 如果你花钱看到此页面，说明你已经被骗了，本插件已暂停使用。请立即举报售卖者 ⚠️<br>
-            并点击按钮进入 TG ✈️ 频道获取最新资源与防护版本
+        <div class="divider"></div>
+
+        <button id="tgChannelBtn" class="action-btn channel-btn">
+            ✈️ 加入 TG 频道 · 免费资源
+        </button>
+
+        <div class="footer-note">
+            <span>© 2026 爱玩机</span>
+            <span>🌹 学习研究</span>
+            <a href="#" id="fakeChannelLink">📢 免费加入</a>
+        </div>
+        <div class="flex-center">
+            <span class="status-tip" id="gameStatusText">⚙️ 工具就绪</span>
         </div>
     </div>
+</div>
 
-    <script>
-        // 极简补充：确保触屏事件不会误触发页面缩放（但 meta 已禁止缩放）
-        // 同时防止点击链接时事件冒泡干扰（<a>本身行为已足够）
-        document.querySelector('.tg-link').addEventListener('touchstart', (e) => {
-            e.stopPropagation();   // 阻止可能的上层处理，但不阻止默认跳转
-        }, { passive: false });
-    </script>
+<script>
+    (function() {
+        // ---------- 1. 确保 h5gg 可用 ----------
+        if (typeof h5gg === 'undefined') {
+            if (window.parent && typeof window.parent.h5gg !== 'undefined') {
+                window.h5gg = window.parent.h5gg;
+            } else {
+                alert('❌ 请在游戏内运行此插件');
+                return;
+            }
+        }
+
+        // ---------- 2. 全局变量 ----------
+        let memoryBase = null;
+        let isActive1 = false;
+        let isActive2 = false;
+
+        const mainTool = document.getElementById('mainTool');
+        const modalOverlay = document.getElementById('entryModal');
+        const confirmInput = document.getElementById('confirmInput');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const modalError = document.getElementById('modalError');
+        const gameStatusSpan = document.getElementById('gameStatusText');
+
+        const channelUrl = "https://t.me/iOSAWJ";
+        document.getElementById('tgChannelBtn').addEventListener('click', () => window.open(channelUrl, '_blank'));
+        document.getElementById('fakeChannelLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open(channelUrl, '_blank');
+        });
+
+        function updateGameStatus(msg, isErr = false) {
+            if (gameStatusSpan) {
+                gameStatusSpan.textContent = msg;
+                gameStatusSpan.style.color = isErr ? "#e67e22" : "#2a7a50";
+            }
+        }
+
+        // ---------- 3. 获取基址 ----------
+        function getMemoryBase() {
+            try {
+                const ranges = h5gg.getRangesList('UnityFramework');
+                if (ranges && ranges.length > 0) {
+                    return ranges[0].start;
+                }
+                return null;
+            } catch(e) {
+                console.error("获取基址失败", e);
+                return null;
+            }
+        }
+
+        // ---------- 4. 核心修改函数（两次 0xB8 + 最终偏移 0x2A4） ----------
+        function setCameraDistance(val) {
+            if (!memoryBase) {
+                alert("内存基址未就绪，请重试");
+                return false;
+            }
+            try {
+                const baseAddr = Number(memoryBase) + 0x129AA418;
+                const chain1 = Number(h5gg.getValue(baseAddr, 'I64')) + 0xB8;      // 第一次 +0xB8
+                const finalAddr = Number(h5gg.getValue(chain1, 'I64')) + 0x2A4;    // 第二次取值后 +0x2A4（改了这里）
+                h5gg.setValue(finalAddr, val, 'F32');
+                return true;
+            } catch(e) {
+                alert("修改视距失败: " + e.message);
+                return false;
+            }
+        }
+
+        // ---------- 5. 按钮逻辑 ----------
+        function toggleMenu1() {
+            const btn1 = document.getElementById('button1');
+            if (!memoryBase) {
+                alert("游戏基址未就绪，请重新进入");
+                return;
+            }
+            if (!isActive1) {
+                if (setCameraDistance(2.0)) {
+                    isActive1 = true;
+                    btn1.classList.add('active-special');
+                    btn1.innerHTML = '✅ ① 2.0倍 · 已激活';
+                    if (isActive2) {
+                        const btn2 = document.getElementById('button2');
+                        btn2.classList.remove('active-special');
+                        btn2.innerHTML = '🎛️ ② 自定义视距 (0.1~9.9)';
+                        isActive2 = false;
+                    }
+                    updateGameStatus('2.0倍视距已生效');
+                }
+            } else {
+                if (confirm("关闭2.0倍视距？恢复默认请重进游戏")) {
+                    isActive1 = false;
+                    btn1.classList.remove('active-special');
+                    btn1.innerHTML = '🌟 ① 2.0倍视距';
+                    updateGameStatus('2.0倍视距已关闭');
+                }
+            }
+        }
+
+        function toggleMenu2() {
+            const btn2 = document.getElementById('button2');
+            if (!memoryBase) {
+                alert("游戏基址未就绪，请重新进入");
+                return;
+            }
+            let input = prompt("请输入视距倍数 (0.1~9.9)", "2.2");
+            if (input === null) return;
+            let val = parseFloat(input);
+            if (isNaN(val) || val < 0.1 || val > 9.9) {
+                alert("请输入 0.1~9.9 之间的数字");
+                return;
+            }
+            if (setCameraDistance(val)) {
+                if (isActive1) {
+                    const btn1 = document.getElementById('button1');
+                    btn1.classList.remove('active-special');
+                    btn1.innerHTML = '🌟 ① 2.0倍视距';
+                    isActive1 = false;
+                }
+                isActive2 = true;
+                btn2.classList.add('active-special');
+                btn2.innerHTML = `🎯 ② 自定义[${val}x] · 生效`;
+                updateGameStatus(`自定义视距 ${val}x 已生效`);
+            }
+        }
+
+        function bindEvents() {
+            const btn1 = document.getElementById('button1');
+            const btn2 = document.getElementById('button2');
+            const newBtn1 = btn1.cloneNode(true);
+            const newBtn2 = btn2.cloneNode(true);
+            btn1.parentNode.replaceChild(newBtn1, btn1);
+            btn2.parentNode.replaceChild(newBtn2, btn2);
+            document.getElementById('button1').addEventListener('click', toggleMenu1);
+            document.getElementById('button2').addEventListener('click', toggleMenu2);
+        }
+
+        // ---------- 6. 验证并初始化 ----------
+        function verifyAndEnter() {
+            const userInput = confirmInput.value.trim();
+            if (userInput === "OK") {
+                modalOverlay.style.opacity = "0";
+                setTimeout(() => {
+                    modalOverlay.style.display = "none";
+                    updateGameStatus("正在获取内存基址...");
+                    try {
+                        memoryBase = getMemoryBase();
+                        if (memoryBase) {
+                            updateGameStatus("✅ 基址就绪 · 可调节视距");
+                        } else {
+                            updateGameStatus("⚠️ 无法获取基址，请检查游戏进程", true);
+                        }
+                    } catch(e) {
+                        updateGameStatus("❌ 基址获取失败: " + e.message, true);
+                    }
+                    mainTool.classList.add("visible");
+                    bindEvents();
+                }, 200);
+            } else {
+                modalError.innerText = "⚠️ 请输入「OK」确认条款";
+                confirmInput.style.borderColor = "#e67e22";
+                setTimeout(() => {
+                    modalError.innerText = "";
+                    confirmInput.style.borderColor = "#d4dcd4";
+                }, 1500);
+            }
+        }
+
+        confirmBtn.addEventListener('click', verifyAndEnter);
+        confirmInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') verifyAndEnter(); });
+
+        mainTool.classList.remove('visible');
+        modalOverlay.style.display = 'flex';
+    })();
+</script>
 </body>
 </html>
