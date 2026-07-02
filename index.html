@@ -357,8 +357,8 @@
                 return false;
             }
             try {
-                const baseAddr = Number(memoryBase) + 0x12C77DF8;
-                const chain1 = Number(h5gg.getValue(baseAddr, 'I64')) + 0x5C8;
+                const baseAddr = Number(memoryBase) + 0x12C6EF90;
+                const chain1 = Number(h5gg.getValue(baseAddr, 'I64')) + 0xB8;
                 const finalAddr = Number(h5gg.getValue(chain1, 'I64')) + 0x5C4;
                 h5gg.setValue(finalAddr, val, 'F32');
                 return true;
