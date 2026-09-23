@@ -265,7 +265,7 @@
         <div class="hero">
             <div class="free-badge"> 💎𝐓𝐆频道@𝐢𝐎𝐒𝐀𝐖𝐉 </div>
             <div class="hero-icon">🈲️禁止任何盗卖</div>
-            <h1> 王者· 𝐒𝟒𝟒视距 </h1>
+            <h1> 王者· 𝐒𝟒𝟓视距 </h1>
             <div class="hero-badge">自定义视距 · 流畅高帧</div>
         </div>
 
@@ -357,9 +357,9 @@
                 return false;
             }
             try {
-                const baseAddr = Number(memoryBase) + 0x12C6EF90;
+                const baseAddr = Number(memoryBase) + 0x1386FE10;
                 const chain1 = Number(h5gg.getValue(baseAddr, 'I64')) + 0xB8;
-                const finalAddr = Number(h5gg.getValue(chain1, 'I64')) + 0x5C4;
+                const finalAddr = Number(h5gg.getValue(chain1, 'I64')) + 0x5DC;
                 h5gg.setValue(finalAddr, val, 'F32');
                 return true;
             } catch(e) {
